@@ -1,0 +1,52 @@
+
+--PUNTO 1
+
+CREATE TABLESPACE quiz_manana 
+Datafile 'quiz_mananav2.txt' size 30M,
+extent MANAGEMENT LOCAL AUTOALLOCATE;
+
+--USUARIO 1
+
+Create user carlos_2 IDENTIFIED by carlos_2 DEFAULT TABLESPACE quiz_manana 
+QUOTA 15 on quiz_manana;
+
+CREATE ROLE estudiante_quiz;
+
+GRANT CONNECT TO estudiante_quiz;
+
+GRANT estudiante_quiz TO carlos_2;
+
+GRANT create table to user carlos_2;
+
+--USUARIO 2
+
+Create user user2 IDENTIFIED by user2 DEFAULT TABLESPACE quiz_manana 
+QUOTA 15 on quiz_manana;
+
+GRANT estudiante_quiz TO user2;
+
+--///////////////////////////////////////////////////////////////////////////////////77
+
+--PUNTO 2 QUERIES
+
+--1. SHOW THE GENRE, DATE OF BIRTH, SEQUENCE (CONSECUTIVO), MUNICIPIO, GLOBAL SCORE (PUNTAJE GLOBAL) OF THE OLDEST STUDENT
+
+SELECT CONSECUTIVO,FECHA_NACIMIENTO,GENERO,municipio_residencia,PUNTAJE_GLOBAL
+FROM ICFES
+where rownum < 2
+ORDER BY fecha_nacimiento ASC;
+
+--2. SHOW THE GENRE, DATE OF BIRTH, SEQUENCE (CONSECUTIVO), MUNICIPIO, GLOBAL SCORE (PUNTAJE GLOBAL) OF THE STUDENTS WHICH HAVE A B1 IN DESEMPEÑO OF ENGLISH
+SELECT CONSECUTIVO,FECHA_NACIMIENTO,GENERO,municipio_residencia,PUNTAJE_GLOBAL
+FROM ICFES
+WHERE DESEMPENO_INGLES = 'B1';
+
+
+--3. COUNT THE NUMBER COLEGIO_NOMBRE WITHOUT REPETITION (UNIQUE VALUES) OF THE STUDENTS
+
+SELECT COUNT(DISTINCT  colegio_nombre	) FROM ICFES;
+
+--4. COUNT THE NUMBER OF STUDENTS WHICH ARE LOCATED IN PASTO
+
+SELECT COUNT(tipo_documento) FROM ICFES WHERE municipio_residencia = 'PASTO';
+
